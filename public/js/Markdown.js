@@ -19,8 +19,21 @@
       this.specialChars = ["*", "_"];
       this.regexps = [
       {
-        reg: /\*([\s\S\+])\*/,
-        fn: this.strong
+        reg: /(\*{2}([\w]+?)\*{2})/g,
+        replace: "<strong>$2</strong>"
+      },
+      {
+        reg: /(_([\w]+?)_)/g,
+        replace: "<i>$2</i>"
+      },
+      {
+        reg: /^(#{1,6}([\w\s\S]+))$/g,
+        replace: function () {
+          const match = arguments[0];
+          const h = Math.min(match.split("#").length - 1, 6);
+          const re = new RegExp(`#{${h}}([\\w\\s\\S]+)`);
+          return match.replace(re, `<h${h}>$1</h${h}>`);
+        }
       }
       ];
     }
@@ -45,19 +58,16 @@
     }
     updatePreview () {
       const lines = this.textarea.value.split("\n");
+      this.preview.innerHTML = "";
       lines.forEach(l => {
-        this.createLine(l);
+        this.preview.insertAdjacentHTML('beforeend', this.parseLine(l));
       });
     }
-    createLine (line) {
-      let j;
-      for (let i = 0, len$ = line.length; i < len$; i++) {
-        const char = line[i];
-        if (this.tagMap[char]) {
-          if ((j = line.indexOf(char))) {
-          }
-        }
-      }
+    parseLine (line) {
+      this.regexps.forEach(r => {
+        line = line.replace(r.reg, r.replace);
+      });
+      return line;
     }
   }
 
