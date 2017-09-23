@@ -5,12 +5,20 @@ html
     title Markdown
     link(rel="stylesheet", href="css/style.css")
   body
-    h3 Markdown editor
     markdown
       textarea
-        |_aa_
-        |*bb*
-        |cc
+        |Wymagania:
+        |* edycja tekstu w polu powoduje automatyczne renderowanie obok
+        |* obsługa **przynajmniej** podstawowych elementów języka markdown takich jak:
+        |* **pogrubienie**
+        |* _kursywa_
+        |* [odnośnik](http://typeofweb.com/)
+        |* #### Nagłówki
+        |* tekst powinien się automatycznie zapisywać w przeglądarce
+        |* edytor powinien być funkcjonalny również na urządzeniach mobilnych
+        |Technologia:
+        |* dowolna ze wskazaniem na czysty JS
+        |* dodatkowe utrudnienie: Spróbować zaimplementować obsługę Markdowna samemu bez gotowych bibliotek (nieobowiązkowo)
       preview
     script(type="text/javascript" src="js/Markdown.js")
     script(type="text/javascript" src="js/index.js")
