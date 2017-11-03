@@ -2,10 +2,13 @@
   "name": "markdown",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.ls",
   "dependencies": {},
   "devDependencies": {
+    "browser-sync": "^2.18.13",
     "express": "^4.15.4",
+    "gulp": "^3.9.1",
+    "gulp-livescript": "^3.0.1",
     "pug": "^2.0.0-rc.4"
   },
   "scripts": {
