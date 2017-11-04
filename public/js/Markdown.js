@@ -127,6 +127,13 @@
       return line;
     }
   }
+  Markdown.prototype.value = "";
+  Markdown.prototype.wrapper = null;
+  Markdown.prototype.textarea = null;
+  Markdown.prototype.preview = null;
+  Markdown.prototype.options = null;
+  Markdown.prototype.regexps = null;
+  Markdown.prototype.events = null;
 
   global.Markdown = Markdown;
 })(window);
