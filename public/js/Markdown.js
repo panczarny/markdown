@@ -78,10 +78,6 @@
       replace: "<p>$1$2</p>"
     }
   ];
-  const DEFAULTS = {
-    timeout: 100,
-    eventTypes: ["input"]
-  };
 
   class Markdown {
     constructor (wrapper) {
@@ -89,10 +85,12 @@
         throw new Error("Markdown constructor needs a wrapper");
       }
       this.wrapper = wrapper;
-      this.options = Object.assign({}, DEFAULTS);
       this.regexps = [].concat(REGEXPS);
       this.events = {};
-      this.options.eventTypes.forEach(ev => this.events[ev] = (el, fn) => el.addEventListener(ev, fn));
+      if (!Array.isArray(this.eventType)) {
+        this.eventType = [this.eventType];
+      }
+      this.eventType.forEach(ev => this.events[ev] = (el, fn) => el.addEventListener(ev, fn));
     }
     init () {
       if (!this.checkHTMLStructure()) {
@@ -107,7 +105,7 @@
     addEventHandlers () {
       this.events.input(this.textarea, e => {
         clearTimeout(this._timeout);
-        this._timeout = setTimeout(() => this.onInput(), this.options.timeout);
+        this._timeout = setTimeout(() => this.onInput(), this.timeout);
       });
     }
     onInput () {
@@ -126,9 +124,10 @@
   Markdown.prototype.wrapper = null;
   Markdown.prototype.textarea = null;
   Markdown.prototype.preview = null;
-  Markdown.prototype.options = null;
   Markdown.prototype.regexps = null;
   Markdown.prototype.events = null;
+
+  Markdown.prototype.eventType = "input"; // It's possible to pass an array of eventTypes
 
   global.Markdown = Markdown;
 })(window);
