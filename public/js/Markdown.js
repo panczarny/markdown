@@ -3,9 +3,6 @@
   const s = (s, context) => (document || context).querySelectorAll(s);
   const c = (t, context) => (document || context).createElement(t);
 
-  const EVENTS = [/*"keydown", */"input"];
-  const events = {};
-  EVENTS.forEach(ev => events[ev] = (el, fn) => el.addEventListener(ev, fn));
   const REGEXPS = [
     {
       reg: /(__\*\*\*(.+?)\*\*\*__)/g,
@@ -92,11 +89,10 @@
         throw new Error("Markdown constructor needs a wrapper");
       }
       this.wrapper = wrapper;
-      this.options = {
-        timeout: 100
-      };
-      this.specialChars = ["*", "_"];
+      this.options = Object.assign({}, DEFAULTS);
       this.regexps = [].concat(REGEXPS);
+      this.events = {};
+      this.options.eventTypes.forEach(ev => this.events[ev] = (el, fn) => el.addEventListener(ev, fn));
     }
     init () {
       if (!this.checkHTMLStructure()) {
@@ -109,7 +105,7 @@
       return (this.textarea = s1("textarea", this.wrapper)) && (this.preview = s1("preview", this.wrapper));
     }
     addEventHandlers () {
-      events.input(this.textarea, e => {
+      this.events.input(this.textarea, e => {
         clearTimeout(this._timeout);
         this._timeout = setTimeout(() => this.onInput(), this.options.timeout);
       });
