@@ -24,6 +24,9 @@ markdown preview {
   background-color: #fff;
   color: #333;
 }
+markdown preview .bold {
+  font-weight: bold;
+}
 @media screen and (max-width: 900px) {
   markdown {
     flex-direction: column;
