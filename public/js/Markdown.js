@@ -97,6 +97,10 @@
         throw new Error("Wrong HTML structure provided - check that!");
       }
       this.addEventHandlers();
+      if (!this.checkLocalStorage()) {
+        this.setLocalStorage = this.restoreLocalStorage = () => {};
+      }
+      this.setValue();
       this.updatePreview();
     }
     checkHTMLStructure () {
@@ -108,9 +112,22 @@
         this._timeout = setTimeout(() => this.onInput(), this.timeout);
       });
     }
+    checkLocalStorage () {
+      return localStorage !== undefined;
+    }
+    setValue () {
+      if (this.textarea.value) {
+        this.value = this.textarea.value;
+        this.setLocalStorage();
+      }
+      else {
+        this.value = this.textarea.value = this.restoreLocalStorage() || "";
+      }
+    }
     onInput () {
       this.value = this.textarea.value;
       this.updatePreview();
+      this.setLocalStorage();
     }
     updatePreview () {
       let HTML = this.value;
@@ -118,6 +135,12 @@
         HTML = HTML.replace(r.reg, r.replace);
       });
       this.preview.innerHTML = HTML;
+    }
+    setLocalStorage () {
+      localStorage.setItem(this.storageName, this.value);
+    }
+    restoreLocalStorage () {
+      return localStorage.getItem(this.storageName);
     }
   }
   Markdown.prototype.value = "";
@@ -127,6 +150,7 @@
   Markdown.prototype.regexps = null;
   Markdown.prototype.events = null;
 
+  Markdown.prototype.storageName = "_markdown_editor_";
   Markdown.prototype.eventType = "input"; // It's possible to pass an array of eventTypes
 
   global.Markdown = Markdown;
