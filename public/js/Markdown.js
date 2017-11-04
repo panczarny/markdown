@@ -29,15 +29,7 @@
         throw new Error("Wrong HTML structure provided - check that!");
       }
       this.addEventHandlers();
-
-
-
-
-
-      this.onInput();
-
-
-
+      this.updatePreview();
     }
     checkHTMLStructure () {
       return (this.textarea = s1("textarea", this.wrapper)) && (this.preview = s1("preview", this.wrapper));
@@ -56,7 +48,6 @@
       lines.forEach(l => {
         this.createLine(l);
       });
-      // console.log(lines);
     }
     createLine (line) {
       let j;
@@ -66,9 +57,7 @@
           if ((j = line.indexOf(char))) {
           }
         }
-        console.log(char);
       }
-      // console.log(line);
     }
   }
 
