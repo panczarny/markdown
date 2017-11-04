@@ -6,6 +6,85 @@
   const EVENTS = [/*"keydown", */"input"];
   const events = {};
   EVENTS.forEach(ev => events[ev] = (el, fn) => el.addEventListener(ev, fn));
+  const REGEXPS = [
+    {
+      reg: /(__\*\*\*(.+?)\*\*\*__)/g,
+      replace: "<u><strong><i>$2</i></strong></u>"
+    },
+    {
+      reg: /(__\*\*(.+?)\*\*__)/g,
+      replace: "<u><strong>$2</strong></u>"
+    },
+    {
+      reg: /(__\*(.+?)\*__)/g,
+      replace: "<u><i>$2</i></u>"
+    },
+    {
+      reg: /(__(.+?)__)/g,
+      replace: "<u>$2</u>"
+    },
+    {
+      reg: /(\*\*\*(.+?)\*\*\*)/g,
+      replace: "<strong><i>$2</i></strong>"
+    },
+    {
+      reg: /(\*\*(.+?)\*\*)/g,
+      replace: "<strong>$2</strong>"
+    },
+    {
+      reg: /(\*(.+?)\*)/g,
+      replace: "<i>$2</i>"
+    },
+    {
+      reg: /(_(.+?)_)/g,
+      replace: "<i>$2</i>"
+    },
+    {
+      reg: /(~~(.+?)~~)/g,
+      replace: "<strike>$2</strike>"
+    },
+    {
+      reg: /\[(.*)\]\((.*)\)/g,
+      replace: "<a target=\"_blank\" href='$2'>$1</a>"
+    },
+    {
+      reg: /(#{1,6}(.*?))(?=\n)/g,
+      replace: function () {
+        const match = arguments[0];
+        const h = Math.min(match.split("#").length - 1, 6);
+        const re = new RegExp(`#{${h}}([\\w\\s\\S]+)`);
+        return match.replace(re, `<h${h}>$1</h${h}>`);
+      }
+    },
+    {
+      reg: /(\* )(.*?)(?=\n|$)/g,
+      replace: "<li>$2</li>"
+    },
+    {
+      reg: /<\/li>\n<li>/g,
+      replace: "<\/li><li>"
+    },
+    {
+      reg: /(<li>.*<\/li>)/g,
+      replace: "<ul>$1</ul>"
+    },
+    {
+      reg: /```([\s\S]*)```/g,
+      replace: "<pre>$1</pre>"
+    },
+    {
+      reg: /`(.*)`/g,
+      replace: "<code>$1</code>"
+    },
+    {
+      reg: /(<i>|<strong>|<u>|<strike>)(.+)/g,
+      replace: "<p>$1$2</p>"
+    }
+  ];
+  const DEFAULTS = {
+    timeout: 100,
+    eventTypes: ["input"]
+  };
 
   class Markdown {
     constructor (wrapper) {
@@ -17,25 +96,7 @@
         timeout: 100
       };
       this.specialChars = ["*", "_"];
-      this.regexps = [
-      {
-        reg: /(\*{2}([\w]+?)\*{2})/g,
-        replace: "<strong>$2</strong>"
-      },
-      {
-        reg: /(_([\w]+?)_)/g,
-        replace: "<i>$2</i>"
-      },
-      {
-        reg: /^(#{1,6}([\w\s\S]+))$/g,
-        replace: function () {
-          const match = arguments[0];
-          const h = Math.min(match.split("#").length - 1, 6);
-          const re = new RegExp(`#{${h}}([\\w\\s\\S]+)`);
-          return match.replace(re, `<h${h}>$1</h${h}>`);
-        }
-      }
-      ];
+      this.regexps = [].concat(REGEXPS);
     }
     init () {
       if (!this.checkHTMLStructure()) {
