@@ -111,20 +111,15 @@
       });
     }
     onInput () {
+      this.value = this.textarea.value;
       this.updatePreview();
     }
     updatePreview () {
-      const lines = this.textarea.value.split("\n");
-      this.preview.innerHTML = "";
-      lines.forEach(l => {
-        this.preview.insertAdjacentHTML('beforeend', this.parseLine(l));
-      });
-    }
-    parseLine (line) {
+      let HTML = this.value;
       this.regexps.forEach(r => {
-        line = line.replace(r.reg, r.replace);
+        HTML = HTML.replace(r.reg, r.replace);
       });
-      return line;
+      this.preview.innerHTML = HTML;
     }
   }
   Markdown.prototype.value = "";
