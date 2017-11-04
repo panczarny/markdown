@@ -6,7 +6,7 @@
   const REGEXPS = [
     {
       reg: /(__\*\*\*(.+?)\*\*\*__)/g,
-      replace: "<u><span class=\"bold\"><i>$2</i></span></u>"
+      replace: "<u><span class=\"bold\"><em>$2</em></span></u>"
     },
     {
       reg: /(__\*\*(.+?)\*\*__)/g,
@@ -14,7 +14,7 @@
     },
     {
       reg: /(__\*(.+?)\*__)/g,
-      replace: "<u><i>$2</i></u>"
+      replace: "<u><em>$2</em></u>"
     },
     {
       reg: /(__(.+?)__)/g,
@@ -22,7 +22,7 @@
     },
     {
       reg: /(\*\*\*(.+?)\*\*\*)/g,
-      replace: "<span class=\"bold\"><i>$2</i></span>"
+      replace: "<span class=\"bold\"><em>$2</em></span>"
     },
     {
       reg: /(\*\*(.+?)\*\*)/g,
@@ -30,11 +30,11 @@
     },
     {
       reg: /(\*(.+?)\*)/g,
-      replace: "<i>$2</i>"
+      replace: "<em>$2</em>"
     },
     {
       reg: /(_(.+?)_)/g,
-      replace: "<i>$2</i>"
+      replace: "<em>$2</em>"
     },
     {
       reg: /(~~(.+?)~~)/g,
@@ -74,7 +74,7 @@
       replace: "<code>$1</code>"
     },
     {
-      reg: /(<i>|<span class=\"bold\">|<u>|<strike>)(.+)/g,
+      reg: /(<em>|<span class=\"bold\">|<u>|<strike>)(.+)/g,
       replace: "<p>$1$2</p>"
     }
   ];
