@@ -49,12 +49,15 @@
     };
     Backendless.Data.of('notes').save(note)
     .then(onSavedNote)
-    .catch(err => console.error(err));
+    .catch(err => onSavedNote(null));
   };
 
   const getLinkSelected = () => {
     const range = document.createRange();
     const $el = s1('#savedNoteLink');
+    if (!$el) {
+      return;
+    }
     range.setStartBefore($el);
     range.setEndAfter($el);
     window.getSelection().addRange(range);
@@ -65,16 +68,18 @@
   const setUrl = hash => window.history.pushState('main', 'Markdown', `?note=${hash}`);
 
   const onSavedNote = note => {
-    const link = `${location.href}?note=${note.hash}`;
+    const link = `${location.href}?note=${note && note.hash}`;
+    const modalContent = note ? `<h1 id="savedNoteLink">${link}</h1>` : '<h1>There was a problem while saving your note.</h1>';
+    const footerText = note ? 'Copy to clipboard' : 'Ok';
     const modal = new tingle.modal({
       footer: true,
       closeMethods: ['overlay', 'button', 'escape'],
-      closeLabel: 'Zamknij',
+      closeLabel: 'Close',
       onOpen: getLinkSelected,
       onClose: removeSelection
     });
-    modal.setContent(`<h1 id="savedNoteLink">${link}</h1>`);
-    modal.addFooterBtn('Copy to clipboard', 'tingle-btn tingle-btn--primary', () => {
+    modal.setContent(modalContent);
+    modal.addFooterBtn(footerText, 'tingle-btn tingle-btn--primary', () => {
       removeSelection();
       getLinkSelected();
       document.execCommand('copy');
@@ -82,7 +87,9 @@
     modal.open();
     $shareBtn.classList.remove('sharing');
     $shareBtn.disabled = false;
-    setUrl(note.hash);
+    if (note && note.hash) {
+      setUrl(note.hash);
+    }
   };
 
   const share = () => {
