@@ -266,6 +266,7 @@
 body {
   margin: 0;
   position: relative;
+  font-family: Montserrat, sans-serif;
 }
 
 markdown {
