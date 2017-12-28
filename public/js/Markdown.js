@@ -100,7 +100,7 @@
       if (!this.checkLocalStorage()) {
         this.setLocalStorage = this.restoreLocalStorage = () => {};
       }
-      this.setValue();
+      this.setInitValue();
       this.updatePreview();
     }
     checkHTMLStructure () {
@@ -115,7 +115,7 @@
     checkLocalStorage () {
       return localStorage !== undefined;
     }
-    setValue () {
+    setInitValue () {
       if (this.textarea.value) {
         this.value = this.textarea.value;
         this.setLocalStorage();
@@ -123,6 +123,10 @@
       else {
         this.value = this.textarea.value = this.restoreLocalStorage() || "";
       }
+    }
+    setValue (text) {
+      this.textarea.value = text;
+      this.onInput();
     }
     onInput () {
       this.value = this.textarea.value;
