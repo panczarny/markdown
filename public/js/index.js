@@ -1,6 +1,6 @@
 (() => {
-  const s1 = (s, context) => Array.from((document || context).querySelector(s));
-  const s = (s, context) => Array.from((document || context).querySelectorAll(s));
+  const s1 = (sel, context) => s(sel, context)[0];
+  const s = (sel, context) => Array.from((document || context).querySelectorAll(sel));
   const c = (t, context) => (document || context).createElement(t);
   const on = (els, type, cb = () => {}) => {
     if (Array.isArray(els)) {
