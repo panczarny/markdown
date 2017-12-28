@@ -49,5 +49,12 @@ markdown
     background: url("../images/download_button.png") center center no-repeat
     background-size: 100%
     transition: transform .1s ease-in-out
+    &.share
+      background-image: url("../images/share.svg")
+      background-size: 80%
+      border-radius: 0
+      &.sharing
+        background-image: url("../images/spinner.svg")
+        background-size: 150%
     &:hover
       transform: scale(1.1)

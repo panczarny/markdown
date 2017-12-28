@@ -325,6 +325,15 @@ markdown preview .bold {
   background-size: 100%;
   transition: transform 0.1s ease-in-out;
 }
+.download button.share {
+  background-image: url("../images/share.svg");
+  background-size: 80%;
+  border-radius: 0;
+}
+.download button.share.sharing {
+  background-image: url("../images/spinner.svg");
+  background-size: 150%;
+}
 .download button:hover {
   transform: scale(1.1);
 }
