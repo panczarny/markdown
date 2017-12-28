@@ -16,7 +16,7 @@
   const m = new Markdown(s1('markdown'));
   m.init();
 
-  on(s('.download button'), 'click', e => {
+  const download = e => {
     const getData = $el => {
       let data, type;
       if ($el.classList.contains('md')) {
@@ -36,4 +36,5 @@
     }
     new Downloader(data, `markdown.${type}`);
   });
+  on(s('.download button'), 'click', download);
 })();
